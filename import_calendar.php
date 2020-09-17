@@ -12,6 +12,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
 $module = new \Vanderbilt\CalendarImportExternalModule\CalendarImportExternalModule();
 $projectsForUser = $module->getAllProjectsForUser();
 $selectedProject = $_POST['project_select'];
+$resultString = "";
 
 if ($selectedProject != "" && is_numeric($selectedProject)) {
     $thisProject = new Project($_GET['pid']);
@@ -27,6 +28,7 @@ if ($selectedProject != "" && is_numeric($selectedProject)) {
     $mappedCalendar = $module->mapCalendarData($calendarData,$mappedEvents,$mappedDAGs,$records,$thisProject->project_id);
 
     $query = "";
+    $totalImports = 0;
     foreach ($mappedCalendar as $calendarArray) {
         $columnToValue = "";
         foreach ($calendarArray as $cKey => $cValue) {
@@ -54,9 +56,11 @@ if ($selectedProject != "" && is_numeric($selectedProject)) {
             $query .= ")";
             if ($query != "") {
                 $result = $module->query($query, $calendarArray);
+                $totalImports++;
             }
         }
     }
+    $resultString = "<p style='font-weight:bold;'>Completed importing $totalImports calendar events from ".$projectsForUser[$selectedProject]."</p>";
 }
 ?>
 <form method="POST" action="<?php $module->getUrl('import_calendar.php') ?>" onsubmit='return confirm("Are you sure you want to import from project \""+document.getElementById("project_select").options[document.getElementById("project_select").selectedIndex].text+"\"?");'>
@@ -68,7 +72,8 @@ if ($selectedProject != "" && is_numeric($selectedProject)) {
         }
         ?>
     </select><br/>
-    <input style="margin-top:5px;" type="submit" value="Import Calendar" />
+    <input style="margin-top:5px;" type="submit" value="Import Calendar" /><br/>
+    <?php echo $resultString; ?>
 </form>
 <script>
     $(document).ready(function (){
