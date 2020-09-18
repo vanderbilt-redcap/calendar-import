@@ -75,7 +75,11 @@ class CalendarImportExternalModule extends \ExternalModules\AbstractExternalModu
     function mapCalendarData($calendarData,$mappedEvents,$mappedDAGs,$existingRecords,$currentProject) {
         $newCalendar = array();
         foreach ($calendarData as $calID => $calData) {
-            if (in_array($calData['record'],array_keys($existingRecords)) && ($calData['group_id'] == "" || isset($mappedDAGs[$calData['group_id']])) && ($calData['event_id'] == "" || isset($mappedEvents[$calData['event_id']]))) {
+            if ($currentProject == 7473) {
+                if (in_array($calData['record'],array('65191-3881','65191-3882','65191-3883','65191-3884','65191-3885','65191-3886','65191-3887','65191-3888','65191-3889','65191-3890'))) continue;
+                $calData['record'] = str_replace("65191-","3295-",$calData['record']);
+            }
+            if (in_array($calData['record'],$existingRecords) && ($calData['group_id'] == "" || isset($mappedDAGs[$calData['group_id']])) && ($calData['event_id'] == "" || isset($mappedEvents[$calData['event_id']]))) {
                 $newCalendar[$calID]['record'] = $this->blankToNull($calData['record']);
                 $newCalendar[$calID]['project_id'] = $this->blankToNull($currentProject);
                 $newCalendar[$calID]['event_id'] = $this->blankToNull($mappedEvents[$calData['event_id']]);

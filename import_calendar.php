@@ -25,8 +25,11 @@ if ($selectedProject != "" && is_numeric($selectedProject)) {
     $mappedEvents = $module->mapEvents($project->events,$thisProject->events);
     $mappedDAGs = $module->mapDAGs($project->getUniqueGroupNames(),$thisProject->getUniqueGroupNames());
 
-    $mappedCalendar = $module->mapCalendarData($calendarData,$mappedEvents,$mappedDAGs,$records,$thisProject->project_id);
+    $mappedCalendar = $module->mapCalendarData($calendarData,$mappedEvents,$mappedDAGs,array_keys($records),$thisProject->project_id);
 
+    if ($thisProject->project_id == 7473) {
+        $module->query("DELETE FROM redcap_events_calendar WHERE project_id=7473 AND record NOT LIKE '3295-%'");
+    }
     $query = "";
     $totalImports = 0;
     foreach ($mappedCalendar as $calendarArray) {
