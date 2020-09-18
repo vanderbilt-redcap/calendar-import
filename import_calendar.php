@@ -27,9 +27,9 @@ if ($selectedProject != "" && is_numeric($selectedProject)) {
 
     $mappedCalendar = $module->mapCalendarData($calendarData,$mappedEvents,$mappedDAGs,array_keys($records),$thisProject->project_id);
 
-    if ($thisProject->project_id == 7473) {
+    /*if ($thisProject->project_id == 7473) {
         $module->query("DELETE FROM redcap_events_calendar WHERE project_id=7473 AND (group_id NOT IN ('6329','3295') OR group_id IS NULL)");
-    }
+    }*/
     $query = "";
     $totalImports = 0;
     foreach ($mappedCalendar as $calendarArray) {
