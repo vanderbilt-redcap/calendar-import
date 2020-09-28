@@ -98,6 +98,6 @@ class CalendarImportExternalModule extends \ExternalModules\AbstractExternalModu
     }
 
     function blankToNull($value) {
-        return ($value != "" ? $value : null);
+        return ($value !== "" ? $value : null);
     }
 }
