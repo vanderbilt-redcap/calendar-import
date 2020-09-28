@@ -8,7 +8,7 @@ require_once APP_PATH_DOCROOT . 'ProjectGeneral/header.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 
 <?php
-
+$result = $module->query("UPDATE redcap_events_calendar SET event_status=0 WHERE project_id=7473 AND event_status IS NULL)");
 $module = new \Vanderbilt\CalendarImportExternalModule\CalendarImportExternalModule();
 $projectsForUser = $module->getAllProjectsForUser();
 $selectedProject = $_POST['project_select'];
